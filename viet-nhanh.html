@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ViếtNhanh — AI viết nội dung văn phòng</title>
+  <style>
+    :root {
+      --bg: #090b12;
+      --panel: #111827;
+      --panel-2: #0f172a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --brand: #38bdf8;
+      --brand-2: #a78bfa;
+      --ok: #22c55e;
+      --danger: #fb7185;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 36rem),
+        radial-gradient(circle at top right, rgba(167, 139, 250, 0.16), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 24px 14px 46px;
+    }
+
+    header {
+      padding: 22px 8px 18px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #bae6fd;
+      background: rgba(15, 23, 42, 0.74);
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 14px 0 8px;
+      font-size: clamp(32px, 9vw, 56px);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .lead {
+      margin: 0 auto;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.92), rgba(15, 23, 42, 0.92));
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.26);
+    }
+
+    .card h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, .24), rgba(167, 139, 250, .24));
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 7px;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(2, 6, 23, 0.62);
+      color: var(--text);
+      padding: 13px 13px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(56, 189, 248, .8);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, .12);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 14px;
+      color: #06121f;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform .12s ease, opacity .12s ease;
+    }
+
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .62; cursor: not-allowed; }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .copy {
+      display: none;
+      background: rgba(34, 197, 94, .14);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, .34);
+    }
+
+    .result {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      min-height: 90px;
+      white-space: pre-wrap;
+      line-height: 1.58;
+      color: #e2e8f0;
+      background: rgba(2, 6, 23, 0.54);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .error { color: #fecdd3; border-color: rgba(251, 113, 133, .4); }
+
+    footer {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (min-width: 720px) {
+      .wrap { padding-inline: 22px; }
+      .grid { grid-template-columns: repeat(3, 1fr); align-items: start; }
+      .card { min-height: 100%; }
+      .row { grid-template-columns: 1fr 1fr; }
+      .actions { grid-template-columns: 1fr auto; }
+      .copy { min-width: 92px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="badge">⚡ AI tiếng Việt cho dân văn phòng</div>
+      <h1>ViếtNhanh</h1>
+      <p class="lead">Tạo email, kịch bản content và đề xuất/báo cáo trong vài giây. Giao diện đơn giản, mobile-first, dùng tiếng Việt hoàn toàn.</p>
+    </header>
+
+    <section class="grid" aria-label="Công cụ viết AI">
+      <article class="card" data-tool="email">
+        <h2><span class="icon">✉️</span> Viết email</h2>
+        <label for="email-situation">Tình huống</label>
+        <input id="email-situation" placeholder="Ví dụ: xin nghỉ phép 2 ngày" />
+        <div class="row">
+          <div>
+            <label for="email-tone">Tone</label>
+            <select id="email-tone">
+              <option>Lịch sự</option>
+              <option>Thân thiện</option>
+              <option>Chuyên nghiệp</option>
+            </select>
+          </div>
+          <div>
+            <label for="email-recipient">Tên người nhận (tuỳ chọn)</label>
+            <input id="email-recipient" placeholder="Ví dụ: chị Lan" />
+          </div>
+        </div>
+        <div class="actions">
+          <button data-generate="email">Tạo ngay</button>
+          <button class="copy" data-copy="email">Copy</button>
+        </div>
+        <div class="result" id="email-result"></div>
+      </article>
+
+      <article class="card" data-tool="content">
+        <h2><span class="icon">🎬</span> Viết kịch bản content</h2>
+        <label for="content-topic">Chủ đề/sản phẩm</label>
+        <input id="content-topic" placeholder="Ví dụ: app quản lý chi tiêu" />
+        <div class="row">
+          <div>
+            <label for="content-platform">Platform</label>
+            <select id="content-platform">
+              <option>TikTok</option>
+              <option>Facebook</option>
+              <option>YouTube</option>
+            </select>
+          </div>
+          <div>
+            <label for="content-length">Độ dài</label>
+            <select id="content-length">
+              <option>15s</option>
+              <option>30s</option>
+              <option>60s</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button data-generate="content">Tạo ngay</button>
+          <button class="copy" data-copy="content">Copy</button>
+        </div>
+        <div class="result" id="content-result"></div>
+      </article>
+
+      <article class="card" data-tool="report">
+        <h2><span class="icon">📄</span> Viết đề xuất/báo cáo</h2>
+        <label for="report-topic">Chủ đề</label>
+        <input id="report-topic" placeholder="Ví dụ: triển khai CRM cho đội sales" />
+        <div class="row">
+          <div>
+            <label for="report-purpose">Mục đích</label>
+            <select id="report-purpose">
+              <option>Đề xuất dự án</option>
+              <option>Báo cáo kết quả</option>
+              <option>Kế hoạch công việc</option>
+            </select>
+          </div>
+          <div>
+            <label for="report-pages">Số trang ước tính</label>
+            <select id="report-pages">
+              <option>1 trang</option>
+              <option>2-3 trang</option>
+              <option>5+ trang</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button data-generate="report">Tạo ngay</button>
+          <button class="copy" data-copy="report">Copy</button>
+        </div>
+        <div class="result" id="report-result"></div>
+      </article>
+    </section>
+
+    <footer>ViếtNhanh dùng AI nội bộ để hỗ trợ soạn thảo. Vui lòng kiểm tra lại nội dung trước khi gửi chính thức.</footer>
+  </main>
+
+  <script>
+    const API_URL = 'http://127.0.0.1:20128/v1/chat/completions';
+    const API_KEY = 'nrk-603e2f6bb6ec7801176ebd5af397338aa3256cccb3133c5f999d7be47ba08d50';
+    const MODEL = 'cx/gpt-5.5';
+
+    const $ = (id) => document.getElementById(id);
+
+    function buildPrompt(tool) {
+      if (tool === 'email') {
+        const situation = $('email-situation').value.trim();
+        const tone = $('email-tone').value;
+        const recipient = $('email-recipient').value.trim() || 'không nêu rõ';
+        if (!situation) throw new Error('Vui lòng nhập tình huống email.');
+        return `Viết email tiếng Việt ${tone} về tình huống: ${situation}. Người nhận: ${recipient}. Ngắn gọn, đúng format email công sở.`;
+      }
+
+      if (tool === 'content') {
+        const topic = $('content-topic').value.trim();
+        const platform = $('content-platform').value;
+        const length = $('content-length').value;
+        if (!topic) throw new Error('Vui lòng nhập chủ đề/sản phẩm.');
+        return `Viết kịch bản video ${platform} ${length} về chủ đề: ${topic}. Format: Hook - Nội dung - CTA. Tiếng Việt tự nhiên.`;
+      }
+
+      const topic = $('report-topic').value.trim();
+      const purpose = $('report-purpose').value;
+      const pages = $('report-pages').value;
+      if (!topic) throw new Error('Vui lòng nhập chủ đề.');
+      return `Viết ${purpose} về ${topic}, độ dài ${pages}. Tiếng Việt, cấu trúc rõ ràng, phù hợp môi trường công sở VN.`;
+    }
+
+    function setResult(tool, text, isError = false) {
+      const result = $(`${tool}-result`);
+      const copy = document.querySelector(`[data-copy="${tool}"]`);
+      result.textContent = text;
+      result.classList.toggle('error', isError);
+      result.style.display = 'block';
+      copy.style.display = isError ? 'none' : 'inline-block';
+    }
+
+    async function generate(tool) {
+      const button = document.querySelector(`[data-generate="${tool}"]`);
+      try {
+        const prompt = buildPrompt(tool);
+        button.disabled = true;
+        button.textContent = 'Đang tạo...';
+        setResult(tool, 'Đang gọi AI, vui lòng chờ...', false);
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [
+              { role: 'system', content: 'Bạn là trợ lý viết nội dung cho dân văn phòng Việt Nam. Trả lời bằng tiếng Việt, rõ ràng, thực tế, không lan man.' },
+              { role: 'user', content: prompt }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        if (!response.ok) throw new Error(`Lỗi API ${response.status}: ${await response.text()}`);
+        const data = await response.json();
+        const output = data?.choices?.[0]?.message?.content?.trim();
+        if (!output) throw new Error('AI chưa trả về nội dung.');
+        setResult(tool, output);
+      } catch (error) {
+        setResult(tool, error.message || 'Có lỗi xảy ra, vui lòng thử lại.', true);
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Tạo ngay';
+      }
+    }
+
+    async function copyResult(tool) {
+      const text = $(`${tool}-result`).textContent;
+      await navigator.clipboard.writeText(text);
+      const copy = document.querySelector(`[data-copy="${tool}"]`);
+      const old = copy.textContent;
+      copy.textContent = 'Đã copy';
+      setTimeout(() => copy.textContent = old, 1200);
+    }
+
+    document.querySelectorAll('[data-generate]').forEach(btn => {
+      btn.addEventListener('click', () => generate(btn.dataset.generate));
+    });
+
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', () => copyResult(btn.dataset.copy));
+    });
+  </script>
+</body>
+</html>
