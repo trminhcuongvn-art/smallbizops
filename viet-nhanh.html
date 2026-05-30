@@ -304,6 +304,76 @@
         <div id="reportStatus" class="status"></div>
         <textarea id="reportResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
       </article>
+
+      <article class="card" data-tool="event">
+        <h2>🗓️ Viết Chương Trình Hội Nghị/Sự Kiện</h2>
+        <p class="hint">Lên chương trình sự kiện theo khung giờ, rõ từng phần.</p>
+
+        <label for="eventName">Tên sự kiện</label>
+        <input id="eventName" type="text" placeholder="VD: Hội nghị khách hàng 2026" />
+
+        <div class="row two">
+          <div>
+            <label for="eventType">Loại sự kiện</label>
+            <select id="eventType">
+              <option>Hội nghị công ty</option>
+              <option>Hội thảo</option>
+              <option>Tiệc</option>
+              <option>Họp tổng kết</option>
+            </select>
+          </div>
+          <div>
+            <label for="eventDuration">Thời lượng</label>
+            <select id="eventDuration">
+              <option>2 giờ</option>
+              <option>4 giờ</option>
+              <option>Cả ngày</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="generate" onclick="generateEvent(this)"><span class="spinner"></span>✨ Tạo ngay</button>
+          <button class="copy" onclick="copyResult('eventResult', this)">📋 Copy</button>
+        </div>
+        <div id="eventStatus" class="status"></div>
+        <textarea id="eventResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      </article>
+
+      <article class="card" data-tool="thesis">
+        <h2>🎓 Viết Luận Văn/Tiểu Luận</h2>
+        <p class="hint">Soạn nội dung học thuật có cấu trúc, chuẩn trích dẫn.</p>
+
+        <label for="thesisTopic">Chủ đề/đề tài</label>
+        <textarea id="thesisTopic" placeholder="VD: Ảnh hưởng của chuyển đổi số đến hiệu quả vận hành doanh nghiệp nhỏ..."></textarea>
+
+        <div class="row two">
+          <div>
+            <label for="thesisLevel">Cấp độ</label>
+            <select id="thesisLevel">
+              <option>Đại học</option>
+              <option>Cao học</option>
+              <option>THPT</option>
+            </select>
+          </div>
+          <div>
+            <label for="thesisPart">Phần cần viết</label>
+            <select id="thesisPart">
+              <option>Mở đầu</option>
+              <option>Chương 1 - Tổng quan</option>
+              <option>Kết luận</option>
+              <option>Toàn bộ outline</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="generate" onclick="generateThesis(this)"><span class="spinner"></span>✨ Tạo ngay</button>
+          <button class="copy" onclick="copyResult('thesisResult', this)">📋 Copy</button>
+        </div>
+        <div id="thesisStatus" class="status"></div>
+        <textarea id="thesisResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      </article>
     </section>
 
     <footer>Chạy cục bộ qua API nội bộ. Không cần backend riêng.</footer>
@@ -395,6 +465,22 @@
       const length = value('reportLength');
       const prompt = `Viết ${type} về ${topic}, độ dài ${length}. Tiếng Việt, cấu trúc rõ ràng, phù hợp môi trường công sở VN.`;
       callAI(prompt, 'reportResult', 'reportStatus', button);
+    }
+
+    function generateEvent(button) {
+      const name = value('eventName');
+      const type = value('eventType');
+      const duration = value('eventDuration');
+      const prompt = `Viết chương trình ${type} tên '${name}', thời lượng ${duration}. Tiếng Việt, format theo giờ, chi tiết từng phần.`;
+      callAI(prompt, 'eventResult', 'eventStatus', button);
+    }
+
+    function generateThesis(button) {
+      const topic = value('thesisTopic');
+      const level = value('thesisLevel');
+      const part = value('thesisPart');
+      const prompt = `Viết ${part} cho luận văn ${level} về chủ đề: ${topic}. Tiếng Việt học thuật, đúng chuẩn trích dẫn, cấu trúc rõ ràng.`;
+      callAI(prompt, 'thesisResult', 'thesisStatus', button);
     }
 
     async function copyResult(resultId, button) {
