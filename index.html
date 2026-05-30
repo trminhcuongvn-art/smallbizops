@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmallBizOps | Practical tools for small business operators</title>
+  <meta name="description" content="SmallBizOps provides simple calculators, templates, and insights for small business operators." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="#top">SmallBizOps</a>
+      <div class="nav-links">
+        <a href="#calculator">Calculator</a>
+        <a href="#insights">Insights</a>
+        <a href="mailto:trminhcuongvn@gmail.com">Contact</a>
+      </div>
+    </nav>
+    <section class="hero" id="top">
+      <p class="eyebrow">Operations tools for lean teams</p>
+      <h1>Make small business decisions with simple, usable numbers.</h1>
+      <p class="hero-copy">SmallBizOps is a lightweight hub for calculators, checklists, and practical insights that help owners plan sales, inventory, and daily operations.</p>
+      <a class="button" href="#calculator">Try the sales target calculator</a>
+    </section>
+  </header>
+
+  <main>
+    <section class="section split" id="calculator">
+      <div>
+        <p class="eyebrow">Client-side calculator</p>
+        <h2>Sales Target Calculator</h2>
+        <p>Calculate revenue, order, daily, lead, and staff targets from profit goal, margin, AOV, conversion rate, and workdays. All math runs in your browser; no data is submitted.</p>
+      </div>
+      <form class="card calculator" id="sales-form">
+        <label>Currency label
+          <input id="currency" type="text" value="USD" required />
+        </label>
+        <label>Profit goal for the period
+          <input id="profitGoal" type="number" min="0" step="0.01" value="5000" required />
+        </label>
+        <label>Fixed costs for the same period
+          <input id="fixedCosts" type="number" min="0" step="0.01" value="1000" required />
+        </label>
+        <label>Variable cost rate (%)
+          <input id="variableCostRate" type="number" min="0" max="99.99" step="0.01" value="60" required />
+        </label>
+        <label>Average order value
+          <input id="averageOrderValue" type="number" min="0.01" step="0.01" value="50" required />
+        </label>
+        <label>Working days
+          <input id="workingDays" type="number" min="1" step="1" value="26" required />
+        </label>
+        <label>Conversion rate (%) optional
+          <input id="conversionRate" type="number" min="0" max="100" step="0.01" value="5" />
+        </label>
+        <label>Staff count optional
+          <input id="staffCount" type="number" min="0" step="1" value="3" />
+        </label>
+        <button class="button" type="submit">Calculate</button>
+        <output id="result" class="result" aria-live="polite">Enter your numbers and calculate.</output>
+      </form>
+    </section>
+
+    <section class="section" id="insights">
+      <p class="eyebrow">News & insights</p>
+      <h2>Coming soon: concise operating insights</h2>
+      <div class="grid">
+        <article class="card"><h3>Inventory planning basics</h3><p>Placeholder for a short guide on keeping stock lean without missing demand.</p></article>
+        <article class="card"><h3>Weekly sales review checklist</h3><p>Placeholder for a repeatable review flow for owner-operators.</p></article>
+        <article class="card"><h3>Tool updates</h3><p>Placeholder for updates as new calculators and templates are added.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer><p>© 2026 SmallBizOps. Built for GitHub Pages. Contact: <a href="mailto:trminhcuongvn@gmail.com">trminhcuongvn@gmail.com</a></p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
