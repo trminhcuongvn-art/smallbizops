@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ông Đồ.AI — trợ lý viết tiếng Việt</title>
-  <meta name="description" content="Ông Đồ.AI — trợ lý viết tiếng Việt zero-cost: tạo prompt/template cho caption, mô tả sản phẩm, email, tóm tắt văn bản và bài đăng tuyển dụng." />
+  <title>Ông Đồ.AI — viết content bán hàng tiếng Việt nhanh hơn</title>
+  <meta name="description" content="Ông Đồ.AI là bộ prompt/template tiếng Việt cho chủ shop và small business: viết caption, mô tả sản phẩm, bài kinh doanh, tin tuyển dụng và tóm tắt văn bản. Không đăng ký, không gửi dữ liệu lên server." />
   <meta property="og:title" content="Ông Đồ.AI — trợ lý viết tiếng Việt" />
-  <meta property="og:description" content="Tạo prompt tiếng Việt dùng ngay với ChatGPT. Không API, không quota." />
+  <meta property="og:description" content="Viết content bán hàng tiếng Việt nhanh hơn bằng prompt/template tĩnh. Không API, không đăng nhập." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,29 +53,54 @@
     .status.ok{color:var(--ok)}
     .status.error{color:var(--err)}
     footer{max-width:760px;margin:48px auto 0;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border);padding-top:20px}
+
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .link-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);border-radius:var(--radius-btn);padding:10px 16px;text-decoration:none;font-weight:600;font-size:.9rem;background:var(--ink);color:#fff}
+    .link-btn.secondary-link{background:var(--bg);color:var(--ink);border-color:var(--border)}
+    .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0 0;padding:0;list-style:none}
+    .metrics li{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;background:var(--surface)}
+    .metrics strong{display:block;font-size:1.15rem;color:var(--ink)}
+    .section{margin-top:36px}
+    .section-head{max-width:760px;margin:0 auto 16px}
+    .section-head h2{margin:0 0 6px;font-size:1.55rem;letter-spacing:-.02em}
+    .section-head p{margin:0;color:var(--muted)}
+    .mini-grid{display:grid;gap:14px}
+    .mini-card{border:1px solid var(--border);border-radius:var(--radius);padding:18px;background:var(--bg)}
+    .mini-card h3{margin:0 0 6px;font-size:1rem}.mini-card p{margin:0;color:var(--muted);font-size:.9rem}
+    .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+    table{width:100%;border-collapse:collapse;font-size:.92rem}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}tr:last-child td{border-bottom:0}th{background:var(--surface);font-weight:600}
     @media(min-width:768px){
       .wrap{padding:56px 24px 96px}
       .grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
       .row.two{grid-template-columns:1fr 1fr}
       .card.feature{grid-column:span 2}
+      .mini-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
     }
     @media(max-width:767px){
       .wrap{padding:32px 16px 64px}
       .card{padding:18px}
-      .actions button{flex:1 1 auto}
+      .actions button,.hero-actions a{flex:1 1 auto}
+      .metrics{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <header>
-      <span class="badge">Không API · Không quota · Copy dùng ngay</span>
-      <h1>Ông Đồ.AI</h1>
-      <p class="subtitle">Trợ lý viết tiếng Việt cho chủ shop, nhân viên văn phòng và đội kinh doanh. Trang này tạo prompt/template tĩnh để bạn copy sang ChatGPT hoặc AI khác — không gửi dữ liệu lên máy chủ.</p>
+      <span class="badge">Không API · Không đăng nhập · Copy dùng ngay</span>
+      <h1>Ông Đồ.AI — viết content bán hàng tiếng Việt nhanh hơn</h1>
+      <p class="subtitle">Bộ prompt/template tiếng Việt cho chủ shop, người bán hàng và small business: tạo caption, mô tả sản phẩm, bài đăng kinh doanh, tin tuyển dụng và tóm tắt văn bản trong vài phút.</p>
+      <div class="hero-actions"><a class="link-btn" href="#tools">Dùng miễn phí</a><a class="link-btn secondary-link" href="#tools">Xem công cụ</a><a class="link-btn secondary-link" href="content-formulas.html">Xem công thức</a></div>
+      <ul class="metrics" aria-label="Thông tin tin cậy"><li><strong>5</strong>công cụ viết nhanh</li><li><strong>0 API</strong>không gọi AI bên ngoài</li><li><strong>0 đăng nhập</strong>mở trang là dùng</li><li><strong>Local-only</strong>prompt tạo trên trình duyệt</li><li><strong>v1 → v4</strong>roadmap nội dung rõ ràng</li></ul>
       <p class="notice">MVP zero-cost: không cần API key, không gọi external AI API. Mọi xử lý chạy ngay trên trình duyệt của bạn.</p>
     </header>
 
-    <section class="grid" aria-label="5 công cụ Ông Đồ.AI">
+    <section class="section" id="roadmap" aria-label="Roadmap phiên bản Ông Đồ.AI"><div class="section-head"><h2>Roadmap nội dung: từ gọn nhẹ đến sát nền tảng</h2><p>Không hứa claim chưa có dữ liệu; chỉ ghi rõ những gì đang có và hướng phát triển tiếp theo.</p></div><div class="mini-grid"><article class="mini-card"><h3>v1 — Gọn nhẹ</h3><p>5 công cụ cơ bản, copy prompt và mở ChatGPT. Phù hợp khi cần viết nhanh, không setup.</p></article><article class="mini-card"><h3>v2 — Có công thức</h3><p>Thêm AIDA, PAS, FAB và các khung viết basic để output có cấu trúc hơn.</p></article><article class="mini-card"><h3>v3 — Theo ngành</h3><p>Preset cho nhà thuốc, mỹ phẩm, F&B, thời trang, mẹ & bé, B2B và dịch vụ địa phương.</p></article><article class="mini-card"><h3>v4 — Theo nền tảng</h3><p>Format riêng cho Facebook, TikTok, Shopee, Zalo, LinkedIn, website và email/DM.</p></article></div></section>
+
+    <section class="section" id="choose" aria-label="Chọn cách viết phù hợp"><div class="section-head"><h2>Chọn cách viết phù hợp</h2><p>Bắt đầu nhanh với v1, rồi nâng dần khi cần bài viết có công thức, sát ngành hoặc đúng format kênh đăng.</p></div><div class="table-wrap"><table><thead><tr><th>Chế độ</th><th>Phù hợp khi</th><th>Output</th></tr></thead><tbody><tr><td>Nhanh</td><td>Cần bài đăng ngay</td><td>Prompt gọn, dễ copy</td></tr><tr><td>Có công thức</td><td>Cần nội dung thuyết phục hơn</td><td>AIDA / PAS / FAB / 4P</td></tr><tr><td>Theo ngành</td><td>Bán trong ngành cụ thể</td><td>Ngôn ngữ sát thị trường</td></tr><tr><td>Theo nền tảng</td><td>Đăng Facebook, TikTok, Shopee, Zalo</td><td>Đúng format từng kênh</td></tr></tbody></table></div></section>
+
+    <section class="grid section" id="tools" aria-label="5 công cụ Ông Đồ.AI">
       <article class="card">
         <h2>1. Caption mạng xã hội</h2><p class="hint">Dành cho Facebook/Zalo: viết caption có hook, nội dung, CTA.</p>
         <label for="captionTopic">Sản phẩm/chủ đề</label><textarea id="captionTopic" placeholder="VD: Combo trà gừng mật ong cho dân văn phòng"></textarea>
