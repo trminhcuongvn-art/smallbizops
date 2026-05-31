@@ -47,6 +47,12 @@
       <div><label for="goal">Goal</label><select id="goal"><option>Drive sales</option><option>Announce news</option><option>Build trust</option><option>Get inquiries</option></select></div>
     </div>
     <div style="margin-top:14px"><label for="details">Key details</label><input id="details" type="text" placeholder="e.g. 20% off, Sat-Sun only, free local delivery" /></div>
+    <div style="margin-top:14px">
+      <label for="formula">Formula / style</label>
+      <select id="formula" data-track="formula_selector"><option>AIDA</option><option>PAS</option><option>Storytelling</option><option>Offer Stack</option></select>
+      <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=business-post-en">View content formulas →</a></p>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -70,6 +76,7 @@ Topic: ${topic}
 Channel: ${v('channel')}
 Goal: ${v('goal')}
 Key details: ${v('details')||'not specified'}
+Formula / style: ${v('formula')}
 Requirements:
 - Start with a clear hook
 - Explain the offer/update in simple language

@@ -60,6 +60,13 @@
         </select>
       </div>
     </div>
+
+    <div style="margin-top:14px">
+      <label for="formula">Formula / style</label>
+      <select id="formula" data-track="formula_selector"><option>FAQ / Structured Summary</option><option>Problem-Solution</option><option>Comparison</option><option>Bullet Brief</option></select>
+      <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=text-summary-en">View content formulas →</a></p>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -76,7 +83,7 @@ function $(id){return document.getElementById(id)}
 function generate(){
   const text=v('text');
   if(!text){$('status').textContent='Please paste some text first.';return}
-  const prompt=`You are an expert at summarizing business documents.\n\nTask: Summarize the following text.\nOutput format: ${v('output')}\nLength: ${v('length')}\nRequirements:\n- Extract the most important points\n- Identify any action items or decisions\n- Flag any risks or concerns\n- Use clear, professional English\n\nText to summarize:\n---\n${text.substring(0,3000)}${text.length>3000?'\n[... text truncated for prompt length ...]':''}`;
+  const prompt=`You are an expert at summarizing business documents.\n\nTask: Summarize the following text.\nOutput format: ${v('output')}\nLength: ${v('length')}\nFormula / style: ${v('formula')}\nRequirements:\n- Extract the most important points\n- Identify any action items or decisions\n- Flag any risks or concerns\n- Use clear, professional English\n\nText to summarize:\n---\n${text.substring(0,3000)}${text.length>3000?'\n[... text truncated for prompt length ...]':''}`;
   $('result').value=prompt;
   $('status').textContent='Prompt ready. Copy to ChatGPT or click "Open in ChatGPT".';
   $('copyBtn').disabled=false;$('chatBtn').disabled=false;

@@ -47,6 +47,12 @@
       <div><label for="location">Location</label><input id="location" type="text" placeholder="e.g. Austin, TX" /></div>
     </div>
     <div style="margin-top:14px"><label for="requirements">Requirements / benefits</label><input id="requirements" type="text" placeholder="e.g. friendly, basic POS, paid training" /></div>
+    <div style="margin-top:14px">
+      <label for="formula">Formula / style</label>
+      <select id="formula" data-track="formula_selector"><option>AIDA</option><option>FAQ</option><option>Storytelling</option><option>Clear Requirements</option></select>
+      <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=job-post-en">View content formulas →</a></p>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -70,6 +76,7 @@ Role: ${role}
 Schedule: ${v('schedule')||'not specified'}
 Location: ${v('location')||'not specified'}
 Requirements/benefits: ${v('requirements')||'not specified'}
+Formula / style: ${v('formula')}
 Requirements:
 - Start with a short hiring headline
 - Include responsibilities, requirements, schedule, pay/benefits if available

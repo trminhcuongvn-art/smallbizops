@@ -82,6 +82,12 @@
       <input id="audience" type="text" placeholder="e.g. women 25-40, office workers" />
     </div>
 
+    <div style="margin-top:14px">
+      <label for="formula">Formula / style</label>
+      <select id="formula" data-track="formula_selector"><option>AIDA</option><option>PAS</option><option>FAB</option><option>Offer Stack</option></select>
+      <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=sales-caption-en">View content formulas →</a></p>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -106,7 +112,7 @@ function generate(){
   const platform = v('platform');
   const tone = v('tone');
   const audience = v('audience');
-  const prompt = `${PREFIX}\n\nTask: Write a sales caption for ${platform}.\nProduct/Topic: ${product}\nTarget audience: ${audience||'general consumers'}\nTone: ${tone}\nRequirements:\n- Start with a strong hook (question, bold statement, or relatable pain point)\n- 2-4 sentences of value/benefit\n- Clear CTA at the end\n- Add 3-5 relevant hashtags\n- Keep it under 150 words`;
+  const prompt = `${PREFIX}\n\nTask: Write a sales caption for ${platform}.\nProduct/Topic: ${product}\nTarget audience: ${audience||'general consumers'}\nTone: ${tone}\nFormula / style: ${v('formula')}\nRequirements:\n- Start with a strong hook (question, bold statement, or relatable pain point)\n- 2-4 sentences of value/benefit\n- Clear CTA at the end\n- Add 3-5 relevant hashtags\n- Keep it under 150 words`;
   $('result').value = prompt;
   $('status').textContent = 'Prompt ready. Copy to ChatGPT or click "Open in ChatGPT".';
   $('copyBtn').disabled = false;

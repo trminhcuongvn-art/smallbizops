@@ -66,6 +66,13 @@
         </select>
       </div>
     </div>
+
+    <div style="margin-top:14px">
+      <label for="formula">Formula / style</label>
+      <select id="formula" data-track="formula_selector"><option>FAB</option><option>AIDA</option><option>Comparison</option><option>FAQ</option></select>
+      <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=product-description-en">View content formulas →</a></p>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -83,7 +90,7 @@ function $(id){return document.getElementById(id)}
 function generate(){
   const product=v('product');
   if(!product){$('status').textContent='Please enter a product name.';return}
-  const prompt=`${PREFIX}\n\nTask: Write a product description for ${v('platform')}.\nProduct: ${product}\nKey features: ${v('features')||'not specified'}\nStyle: ${v('style')}\nRequirements:\n- Lead with the main benefit\n- List 3-5 key features as bullet points\n- Include a trust/quality statement\n- End with a clear CTA\n- Keep under 200 words`;
+  const prompt=`${PREFIX}\n\nTask: Write a product description for ${v('platform')}.\nProduct: ${product}\nKey features: ${v('features')||'not specified'}\nStyle: ${v('style')}\nFormula / style: ${v('formula')}\nRequirements:\n- Lead with the main benefit\n- List 3-5 key features as bullet points\n- Include a trust/quality statement\n- End with a clear CTA\n- Keep under 200 words`;
   $('result').value=prompt;
   $('status').textContent='Prompt ready. Copy to ChatGPT or click "Open in ChatGPT".';
   $('copyBtn').disabled=false;$('chatBtn').disabled=false;
