@@ -53,6 +53,12 @@
       <p class="status" style="margin:6px 0 0">Need help choosing? <a data-track="content_formulas_link" href="../content-formulas.html?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=formula_selector&utm_content=business-post-en">View content formulas →</a></p>
     </div>
 
+
+    <div class="row" style="margin-top:14px">
+      <div><label for="industry">Industry</label><select id="industry" data-track="industry_selector"><option>F&B</option><option>Beauty</option><option>B2B</option><option>Fashion</option><option>Health</option><option>Education</option><option>Real Estate</option><option>Tech</option><option>Retail</option></select></div>
+      <div><label for="platformGuide">Platform guidance</label><select id="platformGuide" data-track="platform_selector"><option>Shopee</option><option>TikTok</option><option>TikTok Shop</option><option>Facebook</option><option>Instagram</option><option>Lazada</option><option>Zalo</option><option>LinkedIn</option><option>YouTube</option><option>Website</option></select></div>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
       <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
@@ -64,6 +70,32 @@
   <footer>SmallBizOps — Free prompt tools for small business operators. <a href="../?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=day2_growth">More tools →</a></footer>
 </div>
 <script>
+
+const INDUSTRY_CONTEXT={
+  'F&B':'Industry context: food and beverage. Mention taste, freshness, ingredients, occasions, ordering or booking details when relevant.',
+  'Beauty':'Industry context: beauty. Mention skin/hair concern, routine fit, ingredients only if provided, usage notes, and avoid medical claims.',
+  'B2B':'Industry context: B2B. Mention business pain point, operational benefit, proof requested, decision process, and next step.',
+  'Fashion':'Industry context: fashion. Mention style, fit, material, occasions, sizing notes, and styling ideas.',
+  'Health':'Industry context: health/wellness. Keep claims careful, suggest consulting professionals when needed, focus on support and usage context.',
+  'Education':'Industry context: education. Mention learner level, outcome, curriculum/format, schedule, and enrollment next step.',
+  'Real Estate':'Industry context: real estate. Mention location, property type, key amenities, viewing/consultation CTA, and avoid investment guarantees.',
+  'Tech':'Industry context: technology. Mention use case, key features, setup, compatibility, security/privacy where relevant.',
+  'Retail':'Industry context: retail. Mention product range, value, availability, store/online purchase path, and customer service.'
+};
+const PLATFORM_CONTEXT={
+  'Shopee':'Platform format: marketplace listing. Use searchable title words, concise bullets, specs, shipping/return notes if provided, and clear buy CTA.',
+  'TikTok':'Platform format: short-video caption/script. Use a quick hook, simple scene idea, short lines, CTA, and 3-5 relevant hashtags.',
+  'TikTok Shop':'Platform format: social-commerce listing/live caption. Combine product benefit, key specs, offer details if provided, and shop CTA.',
+  'Facebook':'Platform format: feed post. Use hook, 2-4 short paragraphs, soft CTA, and optional local/community angle.',
+  'Instagram':'Platform format: visual caption. Use first-line hook, concise value, line breaks, CTA, and 3-5 relevant hashtags.',
+  'Lazada':'Platform format: marketplace listing. Use benefit-led title, bullets, specs, warranty/return notes if provided, and clear CTA.',
+  'Zalo':'Platform format: direct/local message. Keep concise, polite, practical, with clear contact/order next step.',
+  'LinkedIn':'Platform format: professional post. Use clear business insight, credibility, practical takeaway, and conversation CTA.',
+  'YouTube':'Platform format: video title/description. Include searchable title angle, short description, key points, CTA, and chapters if relevant.',
+  'Website':'Platform format: website copy. Use headline, subheadline, benefits, proof placeholders, FAQ/CTA, and skimmable sections.'
+};
+function ctx(id,map){const el=document.getElementById(id);return el&&map[el.value]?map[el.value]:''}
+
 const PREFIX='You are a small business content strategist. Write in English with a practical, friendly tone.';
 function v(id){return document.getElementById(id).value.trim()}
 function $(id){return document.getElementById(id)}
@@ -77,6 +109,8 @@ Channel: ${v('channel')}
 Goal: ${v('goal')}
 Key details: ${v('details')||'not specified'}
 Formula / style: ${v('formula')}
+${ctx('industry',INDUSTRY_CONTEXT)}
+${ctx('platformGuide',PLATFORM_CONTEXT)}
 Requirements:
 - Start with a clear hook
 - Explain the offer/update in simple language
