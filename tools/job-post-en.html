@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Job Post Generator — SmallBizOps</title>
+  <meta name="description" content="Generate a clear, attractive job posting for Facebook, LinkedIn, or your website. Free prompt generator — no API, no signup." />
+  <meta property="og:title" content="Free Job Post Generator — SmallBizOps" />
+  <meta property="og:description" content="Generate job postings instantly. No API key needed." />
+  <meta property="og:type" content="website" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap&subset=vietnamese" rel="stylesheet" />
+  <style>
+    :root{--bg:#FFFFFF;--surface:#F7F6F3;--ink:#111111;--muted:#6b6b6b;--border:#EAEAEA;--radius:12px;--ease:cubic-bezier(0.16,1,0.3,1);--font:'Be Vietnam Pro',system-ui,-apple-system,sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100dvh;font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:focus-visible,button:focus-visible{outline:2px solid #111;outline-offset:4px}
+    .wrap{max-width:min(720px,100%);margin:0 auto;padding:40px 20px 64px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+    .brand{font-weight:700;letter-spacing:-.03em;font-size:1rem}.back{font-size:.85rem;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:7px 12px;transition:background .18s var(--ease)}.back:hover{background:var(--surface)}
+    h1{font-size:clamp(28px,5vw,42px);line-height:1.05;letter-spacing:-.03em;margin:0 0 12px;font-weight:700}.subtitle{color:var(--muted);font-size:.95rem;margin:0 0 32px}
+    .card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+    label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.02em}
+    input,select,textarea{width:100%;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--ink);padding:10px 12px;font:inherit;font-size:.95rem;outline:none;transition:border-color .18s var(--ease),box-shadow .18s var(--ease)}
+    input:focus,select:focus,textarea:focus{border-color:#111;box-shadow:0 0 0 3px rgba(17,17,17,.08)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    button{border:1px solid transparent;border-radius:6px;padding:10px 18px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;transition:transform .12s var(--ease),background-color .18s var(--ease)}
+    button:active{transform:translateY(1px)}.btn-primary{background:var(--ink);color:#fff}.btn-primary:hover{background:#2b2b2b}
+    .btn-secondary{background:var(--bg);color:var(--ink);border:1px solid var(--border)}.btn-secondary:hover{background:var(--surface)}.btn-secondary:disabled{opacity:.4;cursor:not-allowed}
+    .result{min-height:140px;margin-top:16px;white-space:pre-wrap;background:var(--surface);font-size:.9rem;border-radius:6px;border:1px solid var(--border);padding:12px;resize:vertical}
+    .status{font-size:.85rem;color:var(--muted);margin-top:8px;min-height:1.2em}
+    footer{color:var(--muted);font-size:.8rem;text-align:center;margin-top:48px;padding-top:16px;border-top:1px solid var(--border)}
+    @media(max-width:600px){.row{grid-template-columns:1fr}.wrap{padding:24px 16px 48px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">SmallBizOps</span>
+    <a class="back" href="../?utm_source=smallbizops&utm_medium=tool_page&utm_campaign=day2_growth&utm_content=back_home">← Home</a>
+  </div>
+  <h1>Job Post Generator</h1>
+  <p class="subtitle">Generate a clear, attractive job posting for Facebook, LinkedIn, or your website. Free — no API key, no data sent to any server.</p>
+  <div class="card">
+    <label for="role">Job title</label>
+    <input id="role" type="text" placeholder="e.g. Part-time Sales Associate" />
+    <div style="margin-top:14px">
+      <label for="details">Job details</label>
+      <input id="details" type="text" placeholder="e.g. Ho Chi Minh City, salary 7-10M VND, training provided" />
+    </div>
+    <div class="row">
+      <div>
+        <label for="platform">Post channel</label>
+        <select id="platform">
+          <option>Facebook</option>
+          <option>LinkedIn</option>
+          <option>Company website</option>
+          <option>Job board</option>
+        </select>
+      </div>
+      <div>
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option>Clear & attractive</option>
+          <option>Young & energetic</option>
+          <option>Professional</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" onclick="generate()">Generate prompt</button>
+      <button class="btn-secondary" id="copyBtn" onclick="copyResult()" disabled>Copy</button>
+      <button class="btn-secondary" id="chatBtn" onclick="openChatGPT()" disabled>Open in ChatGPT</button>
+    </div>
+    <div class="status" id="status"></div>
+    <textarea class="result" id="result" readonly></textarea>
+  </div>
+  <footer>SmallBizOps — Free prompt tools for small business operators. <a href="../?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=day2_growth">More tools →</a></footer>
+</div>
+<script>
+const PREFIX="You are an expert HR copywriter. Write in English. Make the job post clear, honest, and attractive to the right candidates.";
+function v(id){return document.getElementById(id).value.trim()}
+function $(id){return document.getElementById(id)}
+function generate(){
+  const role=v('role');
+  if(!role){$('status').textContent='Please enter a job title.';return}
+  const prompt=`${PREFIX}\n\nTask: Write a job posting for ${v('platform')}.\nRole: ${role}\nDetails: ${v('details')||'not specified'}\nTone: ${v('tone')}\nRequirements:\n- Clear job title and location\n- 3-5 bullet points of responsibilities\n- 3-5 bullet points of requirements\n- Benefits/perks section\n- Clear application instructions\n- Keep under 250 words`;
+  $('result').value=prompt;
+  $('status').textContent='Prompt ready. Copy to ChatGPT or click "Open in ChatGPT".';
+  $('copyBtn').disabled=false;$('chatBtn').disabled=false;
+}
+function copyResult(){const t=$('result').value;if(!t)return;navigator.clipboard.writeText(t).then(()=>{$('status').textContent='Copied!'}).catch(()=>{$('result').select();document.execCommand('copy');$('status').textContent='Copied!'})}
+function openChatGPT(){const t=$('result').value;if(!t)return;const e=encodeURIComponent(t);if(e.length<6000){window.open('https://chatgpt.com/?q='+e,'_blank','noopener')}else{copyResult();window.open('https://chatgpt.com/','_blank','noopener');$('status').textContent='Prompt copied — paste it into ChatGPT.'}}
+</script>
+</body>
+</html>
