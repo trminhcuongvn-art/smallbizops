@@ -3,494 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ViếtNhanh AI - Công cụ viết lách AI</title>
+  <title>Ông Đồ.AI — trợ lý viết tiếng Việt</title>
+  <meta name="description" content="Ông Đồ.AI — trợ lý viết tiếng Việt zero-cost: tạo prompt/template cho caption, mô tả sản phẩm, email, tóm tắt văn bản và bài đăng tuyển dụng." />
   <style>
-    :root {
-      --bg: #080b12;
-      --card: #111827;
-      --card-2: #0f172a;
-      --accent: #22c55e;
-      --accent-dark: #16a34a;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: rgba(148, 163, 184, 0.18);
-      --danger: #fb7185;
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 32rem),
-        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    .wrap {
-      width: min(1120px, 100%);
-      margin: 0 auto;
-      padding: 28px 16px 44px;
-    }
-
-    header {
-      text-align: center;
-      padding: 18px 0 26px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 8vw, 4.1rem);
-      letter-spacing: -0.05em;
-      line-height: 1.05;
-    }
-
-    .subtitle {
-      margin: 12px auto 0;
-      max-width: 680px;
-      color: var(--muted);
-      font-size: clamp(1rem, 3.8vw, 1.25rem);
-    }
-
-    .grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.96));
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .card h2 {
-      margin: 0 0 6px;
-      font-size: 1.28rem;
-      letter-spacing: -0.02em;
-    }
-
-    .hint {
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      color: #dbeafe;
-      font-weight: 650;
-      font-size: 0.92rem;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(8, 11, 18, 0.72);
-      color: var(--text);
-      padding: 12px 13px;
-      font: inherit;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(34, 197, 94, 0.78);
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.13);
-    }
-
-    textarea {
-      min-height: 116px;
-      resize: vertical;
-    }
-
-    textarea.result {
-      min-height: 230px;
-      margin-top: 12px;
-      white-space: pre-wrap;
-    }
-
-    .row {
-      display: grid;
-      gap: 12px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-weight: 800;
-      cursor: pointer;
-      font: inherit;
-      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
-    }
-
-    button:active { transform: translateY(1px) scale(0.99); }
-    button:disabled { opacity: 0.68; cursor: not-allowed; }
-
-    .generate {
-      background: var(--accent);
-      color: #052e16;
-      min-width: 138px;
-    }
-
-    .generate:hover:not(:disabled) { background: var(--accent-dark); }
-
-    .copy {
-      background: rgba(148, 163, 184, 0.13);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .status {
-      color: var(--muted);
-      font-size: 0.92rem;
-      min-height: 1.4em;
-    }
-
-    .error { color: var(--danger); }
-    .ok { color: var(--accent); }
-
-    .spinner {
-      display: none;
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(5, 46, 22, 0.25);
-      border-top-color: #052e16;
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
-      vertical-align: -3px;
-      margin-right: 7px;
-    }
-
-    button.loading .spinner { display: inline-block; }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    footer {
-      color: var(--muted);
-      text-align: center;
-      font-size: 0.86rem;
-      padding-top: 24px;
-    }
-
-    @media (min-width: 720px) {
-      .wrap { padding: 44px 24px 56px; }
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
-      .card { padding: 22px; }
-      .row.two { grid-template-columns: 1fr 1fr; }
-      textarea.result { min-height: 280px; }
-    }
+    :root{--bg:#07111f;--card:#0f1b2d;--card2:#12243b;--text:#f8fafc;--muted:#a8b3c7;--accent:#f8c24a;--accent2:#22c55e;--border:rgba(255,255,255,.13);--shadow:0 22px 70px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:"Be Vietnam Pro","Inter","Noto Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 12% 0%,rgba(248,194,74,.2),transparent 28rem),radial-gradient(circle at 90% 10%,rgba(34,197,94,.14),transparent 30rem),var(--bg);color:var(--text);line-height:1.55}.wrap{width:min(1180px,100%);margin:auto;padding:34px 16px 52px}header{text-align:center;padding:18px 0 28px}.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border:1px solid var(--border);border-radius:999px;color:#fde68a;background:rgba(248,194,74,.08);font-weight:700;font-size:.92rem}h1{margin:15px 0 8px;font-size:clamp(2.1rem,7vw,4.7rem);letter-spacing:-.055em;line-height:1}.subtitle{margin:0 auto;max-width:760px;color:var(--muted);font-size:clamp(1rem,3vw,1.22rem)}.notice{margin:18px auto 0;max-width:850px;padding:13px 16px;border:1px dashed rgba(248,194,74,.45);border-radius:18px;background:rgba(248,194,74,.07);color:#fde68a}.grid{display:grid;gap:18px}.card{background:linear-gradient(180deg,rgba(15,27,45,.97),rgba(18,36,59,.94));border:1px solid var(--border);border-radius:24px;padding:20px;box-shadow:var(--shadow)}.card h2{margin:0 0 6px;font-size:1.22rem;letter-spacing:-.02em}.hint{margin:0 0 14px;color:var(--muted);font-size:.94rem}label{display:block;margin:12px 0 7px;color:#dbeafe;font-weight:750;font-size:.92rem}input,select,textarea{width:100%;border:1px solid var(--border);border-radius:15px;background:rgba(4,10,20,.68);color:var(--text);padding:12px 13px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:rgba(248,194,74,.8);box-shadow:0 0 0 4px rgba(248,194,74,.12)}textarea{min-height:104px;resize:vertical}.result{min-height:250px;margin-top:12px;white-space:pre-wrap}.row{display:grid;gap:12px}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:15px}button{border:0;border-radius:999px;padding:11px 16px;font:inherit;font-weight:850;cursor:pointer}.generate{background:var(--accent);color:#2b1700}.copy{background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--border)}.status{color:var(--muted);font-size:.9rem;min-height:1.35em;margin-top:8px}.ok{color:#86efac}.error{color:#fb7185}footer{text-align:center;color:var(--muted);font-size:.88rem;padding-top:24px}@media(min-width:760px){.wrap{padding:44px 24px 60px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.row.two{grid-template-columns:1fr 1fr}.card.feature{grid-column:span 2}}@media(min-width:1080px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.card.feature{grid-column:span 1}}
   </style>
 </head>
 <body>
   <main class="wrap">
     <header>
-      <h1>✍️ ViếtNhanh AI</h1>
-      <p class="subtitle">Công cụ viết lách AI cho dân văn phòng Việt</p>
+      <div class="badge">Không API • Không quota • Copy prompt dùng ngay</div>
+      <h1>✍️ Ông Đồ.AI</h1>
+      <p class="subtitle"><strong>Ông Đồ.AI — trợ lý viết tiếng Việt</strong> cho chủ shop, nhân viên văn phòng và đội kinh doanh. Trang này chỉ tạo prompt/template tĩnh để bạn copy sang ChatGPT hoặc AI khác.</p>
+      <div class="notice">MVP zero-cost: không cần API key, không gọi external AI API, không gửi dữ liệu của bạn lên máy chủ.</div>
     </header>
 
-    <section class="grid" aria-label="Các công cụ viết lách AI">
-      <article class="card" data-tool="email">
-        <h2>📧 Viết Email</h2>
-        <p class="hint">Soạn email công sở ngắn gọn, đúng giọng điệu.</p>
-
-        <label for="emailSituation">Tình huống</label>
-        <textarea id="emailSituation" placeholder="VD: Xin dời lịch họp sang chiều thứ Sáu..."></textarea>
-
-        <div class="row two">
-          <div>
-            <label for="emailTone">Tone</label>
-            <select id="emailTone">
-              <option>Lịch sự</option>
-              <option>Thân thiện</option>
-              <option>Chuyên nghiệp</option>
-            </select>
-          </div>
-          <div>
-            <label for="emailRecipient">Tên người nhận (tuỳ chọn)</label>
-            <input id="emailRecipient" type="text" placeholder="VD: Anh Minh" />
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="generate" onclick="generateEmail(this)"><span class="spinner"></span>✨ Tạo ngay</button>
-          <button class="copy" onclick="copyResult('emailResult', this)">📋 Copy</button>
-        </div>
-        <div id="emailStatus" class="status"></div>
-        <textarea id="emailResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+    <section class="grid" aria-label="5 công cụ Ông Đồ.AI">
+      <article class="card">
+        <h2>1. Caption mạng xã hội</h2><p class="hint">Dành cho Facebook/Zalo: viết caption có hook, nội dung, CTA.</p>
+        <label for="captionTopic">Sản phẩm/chủ đề</label><textarea id="captionTopic" placeholder="VD: Combo trà gừng mật ong cho dân văn phòng"></textarea>
+        <div class="row two"><div><label for="captionChannel">Kênh</label><select id="captionChannel"><option>Facebook</option><option>Zalo</option><option>Facebook và Zalo</option></select></div><div><label for="captionTone">Giọng văn</label><select id="captionTone"><option>Thân thiện</option><option>Chuyên nghiệp</option><option>Vui vẻ, gần gũi</option><option>Cao cấp</option></select></div></div>
+        <label for="captionAudience">Khách hàng mục tiêu</label><input id="captionAudience" placeholder="VD: nữ 25-40 tuổi, làm văn phòng" />
+        <div class="actions"><button class="generate" onclick="makeCaption()">✨ Tạo prompt</button><button class="copy" onclick="copyResult('captionResult',this)">📋 Copy</button></div><div id="captionStatus" class="status"></div><textarea id="captionResult" class="result" readonly></textarea>
       </article>
 
-      <article class="card" data-tool="content">
-        <h2>🎬 Viết Kịch Bản Content</h2>
-        <p class="hint">Tạo kịch bản video theo nền tảng và thời lượng.</p>
-
-        <label for="contentTopic">Chủ đề</label>
-        <textarea id="contentTopic" placeholder="VD: Mẹo quản lý thời gian cho nhân viên văn phòng..."></textarea>
-
-        <div class="row two">
-          <div>
-            <label for="contentPlatform">Platform</label>
-            <select id="contentPlatform">
-              <option>TikTok</option>
-              <option>Facebook</option>
-              <option>YouTube</option>
-            </select>
-          </div>
-          <div>
-            <label for="contentLength">Độ dài</label>
-            <select id="contentLength">
-              <option>15 giây</option>
-              <option>30 giây</option>
-              <option>60 giây</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="generate" onclick="generateContent(this)"><span class="spinner"></span>✨ Tạo ngay</button>
-          <button class="copy" onclick="copyResult('contentResult', this)">📋 Copy</button>
-        </div>
-        <div id="contentStatus" class="status"></div>
-        <textarea id="contentResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      <article class="card">
+        <h2>2. Mô tả sản phẩm shop online</h2><p class="hint">Tạo prompt viết mô tả sản phẩm rõ lợi ích, thông số, cam kết.</p>
+        <label for="productName">Tên sản phẩm</label><input id="productName" placeholder="VD: Bình giữ nhiệt inox 900ml" />
+        <label for="productInfo">Đặc điểm chính</label><textarea id="productInfo" placeholder="VD: giữ nóng/lạnh 12 giờ, inox 304, chống rò nước..."></textarea>
+        <div class="row two"><div><label for="productPlatform">Nền tảng</label><select id="productPlatform"><option>Shopee</option><option>Lazada</option><option>TikTok Shop</option><option>Website</option></select></div><div><label for="productStyle">Phong cách</label><select id="productStyle"><option>Dễ hiểu, bán hàng</option><option>Ngắn gọn</option><option>Chi tiết, chuyên nghiệp</option></select></div></div>
+        <div class="actions"><button class="generate" onclick="makeProduct()">✨ Tạo prompt</button><button class="copy" onclick="copyResult('productResult',this)">📋 Copy</button></div><div id="productStatus" class="status"></div><textarea id="productResult" class="result" readonly></textarea>
       </article>
 
-      <article class="card" data-tool="report">
-        <h2>📄 Viết Đề Xuất/Báo Cáo</h2>
-        <p class="hint">Soạn tài liệu rõ ràng, phù hợp môi trường công sở VN.</p>
-
-        <label for="reportTopic">Chủ đề</label>
-        <textarea id="reportTopic" placeholder="VD: Kế hoạch triển khai CRM cho phòng kinh doanh..."></textarea>
-
-        <div class="row two">
-          <div>
-            <label for="reportType">Loại</label>
-            <select id="reportType">
-              <option>Đề xuất dự án</option>
-              <option>Báo cáo kết quả</option>
-              <option>Kế hoạch công việc</option>
-            </select>
-          </div>
-          <div>
-            <label for="reportLength">Độ dài</label>
-            <select id="reportLength">
-              <option>1 trang</option>
-              <option>2-3 trang</option>
-              <option>5+ trang</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="generate" onclick="generateReport(this)"><span class="spinner"></span>✨ Tạo ngay</button>
-          <button class="copy" onclick="copyResult('reportResult', this)">📋 Copy</button>
-        </div>
-        <div id="reportStatus" class="status"></div>
-        <textarea id="reportResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      <article class="card">
+        <h2>3. Email/tin nhắn kinh doanh</h2><p class="hint">Soạn prompt cho email, Zalo hoặc tin nhắn chăm sóc khách hàng.</p>
+        <label for="bizSituation">Tình huống</label><textarea id="bizSituation" placeholder="VD: nhắc khách thanh toán đơn hàng, hẹn lịch demo, gửi báo giá..."></textarea>
+        <div class="row two"><div><label for="bizType">Định dạng</label><select id="bizType"><option>Email</option><option>Tin nhắn Zalo</option><option>Tin nhắn SMS</option></select></div><div><label for="bizTone">Tone</label><select id="bizTone"><option>Lịch sự</option><option>Thân thiện</option><option>Chuyên nghiệp</option><option>Khẩn nhưng mềm mại</option></select></div></div>
+        <label for="bizRecipient">Người nhận</label><input id="bizRecipient" placeholder="VD: Anh Minh - khách đã xin báo giá" />
+        <div class="actions"><button class="generate" onclick="makeBiz()">✨ Tạo prompt</button><button class="copy" onclick="copyResult('bizResult',this)">📋 Copy</button></div><div id="bizStatus" class="status"></div><textarea id="bizResult" class="result" readonly></textarea>
       </article>
 
-      <article class="card" data-tool="event">
-        <h2>🗓️ Viết Chương Trình Hội Nghị/Sự Kiện</h2>
-        <p class="hint">Lên chương trình sự kiện theo khung giờ, rõ từng phần.</p>
-
-        <label for="eventName">Tên sự kiện</label>
-        <input id="eventName" type="text" placeholder="VD: Hội nghị khách hàng 2026" />
-
-        <div class="row two">
-          <div>
-            <label for="eventType">Loại sự kiện</label>
-            <select id="eventType">
-              <option>Hội nghị công ty</option>
-              <option>Hội thảo</option>
-              <option>Tiệc</option>
-              <option>Họp tổng kết</option>
-            </select>
-          </div>
-          <div>
-            <label for="eventDuration">Thời lượng</label>
-            <select id="eventDuration">
-              <option>2 giờ</option>
-              <option>4 giờ</option>
-              <option>Cả ngày</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="generate" onclick="generateEvent(this)"><span class="spinner"></span>✨ Tạo ngay</button>
-          <button class="copy" onclick="copyResult('eventResult', this)">📋 Copy</button>
-        </div>
-        <div id="eventStatus" class="status"></div>
-        <textarea id="eventResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      <article class="card">
+        <h2>4. Tóm tắt văn bản dài</h2><p class="hint">Tạo prompt tóm tắt văn bản thành ý chính, việc cần làm, rủi ro.</p>
+        <label for="summaryText">Dán văn bản cần tóm tắt</label><textarea id="summaryText" placeholder="Dán nội dung dài tại đây..."></textarea>
+        <div class="row two"><div><label for="summaryFormat">Đầu ra</label><select id="summaryFormat"><option>Gạch đầu dòng</option><option>Bảng tóm tắt</option><option>Executive summary</option></select></div><div><label for="summaryLength">Độ dài</label><select id="summaryLength"><option>Rất ngắn</option><option>Vừa đủ</option><option>Chi tiết</option></select></div></div>
+        <div class="actions"><button class="generate" onclick="makeSummary()">✨ Tạo prompt</button><button class="copy" onclick="copyResult('summaryResult',this)">📋 Copy</button></div><div id="summaryStatus" class="status"></div><textarea id="summaryResult" class="result" readonly></textarea>
       </article>
 
-      <article class="card" data-tool="thesis">
-        <h2>🎓 Viết Luận Văn/Tiểu Luận</h2>
-        <p class="hint">Soạn nội dung học thuật có cấu trúc, chuẩn trích dẫn.</p>
-
-        <label for="thesisTopic">Chủ đề/đề tài</label>
-        <textarea id="thesisTopic" placeholder="VD: Ảnh hưởng của chuyển đổi số đến hiệu quả vận hành doanh nghiệp nhỏ..."></textarea>
-
-        <div class="row two">
-          <div>
-            <label for="thesisLevel">Cấp độ</label>
-            <select id="thesisLevel">
-              <option>Đại học</option>
-              <option>Cao học</option>
-              <option>THPT</option>
-            </select>
-          </div>
-          <div>
-            <label for="thesisPart">Phần cần viết</label>
-            <select id="thesisPart">
-              <option>Mở đầu</option>
-              <option>Chương 1 - Tổng quan</option>
-              <option>Kết luận</option>
-              <option>Toàn bộ outline</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="generate" onclick="generateThesis(this)"><span class="spinner"></span>✨ Tạo ngay</button>
-          <button class="copy" onclick="copyResult('thesisResult', this)">📋 Copy</button>
-        </div>
-        <div id="thesisStatus" class="status"></div>
-        <textarea id="thesisResult" class="result" readonly placeholder="Kết quả sẽ hiển thị tại đây..."></textarea>
+      <article class="card">
+        <h2>5. Bài đăng tuyển dụng</h2><p class="hint">Tạo prompt viết JD tuyển dụng rõ việc, quyền lợi, yêu cầu.</p>
+        <label for="jobTitle">Vị trí</label><input id="jobTitle" placeholder="VD: Nhân viên bán hàng ca tối" />
+        <label for="jobInfo">Thông tin công việc</label><textarea id="jobInfo" placeholder="VD: làm tại Hải Phòng, lương 7-10 triệu, có đào tạo..."></textarea>
+        <div class="row two"><div><label for="jobChannel">Kênh đăng</label><select id="jobChannel"><option>Facebook tuyển dụng</option><option>Zalo nhóm</option><option>Website công ty</option></select></div><div><label for="jobTone">Giọng văn</label><select id="jobTone"><option>Rõ ràng, thu hút</option><option>Trẻ trung</option><option>Chuyên nghiệp</option></select></div></div>
+        <div class="actions"><button class="generate" onclick="makeJob()">✨ Tạo prompt</button><button class="copy" onclick="copyResult('jobResult',this)">📋 Copy</button></div><div id="jobStatus" class="status"></div><textarea id="jobResult" class="result" readonly></textarea>
       </article>
     </section>
-
-    <footer>Chạy cục bộ qua API nội bộ. Không cần backend riêng.</footer>
+    <footer>© Ông Đồ.AI — Prompt/template tiếng Việt. URL giữ nguyên: viet-nhanh.html.</footer>
   </main>
-
-  <script>
-    const API_URL = 'http://127.0.0.1:20128/v1/chat/completions';
-    const API_KEY = 'nrk-603e2f6bb6ec7801176ebd5af397338aa3256cccb3133c5f999d7be47ba08d50';
-    const MODEL = 'cx/gpt-5.5';
-
-    function value(id) {
-      return document.getElementById(id).value.trim();
-    }
-
-    function setStatus(id, text, type = '') {
-      const el = document.getElementById(id);
-      el.textContent = text;
-      el.className = `status ${type}`;
-    }
-
-    async function callAI(prompt, resultId, statusId, button) {
-      if (!prompt || /: \.$/.test(prompt)) {
-        setStatus(statusId, 'Vui lòng nhập đầy đủ thông tin chính.', 'error');
-        return;
-      }
-
-      const oldText = button.innerHTML;
-      button.disabled = true;
-      button.classList.add('loading');
-      setStatus(statusId, 'Đang tạo nội dung...');
-      document.getElementById(resultId).value = '';
-
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: MODEL,
-            messages: [
-              { role: 'system', content: 'Bạn là trợ lý viết lách tiếng Việt cho dân văn phòng Việt Nam. Trả lời rõ ràng, thực tế, dễ dùng ngay.' },
-              { role: 'user', content: prompt }
-            ],
-            temperature: 0.7
-          })
-        });
-
-        if (!response.ok) {
-          const text = await response.text();
-          throw new Error(`API lỗi ${response.status}: ${text || response.statusText}`);
-        }
-
-        const data = await response.json();
-        const content = data?.choices?.[0]?.message?.content || '';
-        if (!content) throw new Error('API không trả về nội dung.');
-
-        document.getElementById(resultId).value = content.trim();
-        setStatus(statusId, 'Đã tạo xong.', 'ok');
-      } catch (err) {
-        setStatus(statusId, err.message || 'Có lỗi khi gọi AI.', 'error');
-      } finally {
-        button.disabled = false;
-        button.classList.remove('loading');
-        button.innerHTML = oldText;
-      }
-    }
-
-    function generateEmail(button) {
-      const situation = value('emailSituation');
-      const tone = value('emailTone');
-      const recipient = value('emailRecipient') || 'không nêu rõ';
-      const prompt = `Viết email tiếng Việt ${tone} về: ${situation}. Người nhận: ${recipient}. Ngắn gọn, đúng format email công sở VN.`;
-      callAI(prompt, 'emailResult', 'emailStatus', button);
-    }
-
-    function generateContent(button) {
-      const topic = value('contentTopic');
-      const platform = value('contentPlatform');
-      const length = value('contentLength');
-      const prompt = `Viết kịch bản video ${platform} ${length} về: ${topic}. Format: Hook - Nội dung - CTA. Tiếng Việt tự nhiên, hấp dẫn.`;
-      callAI(prompt, 'contentResult', 'contentStatus', button);
-    }
-
-    function generateReport(button) {
-      const topic = value('reportTopic');
-      const type = value('reportType');
-      const length = value('reportLength');
-      const prompt = `Viết ${type} về ${topic}, độ dài ${length}. Tiếng Việt, cấu trúc rõ ràng, phù hợp môi trường công sở VN.`;
-      callAI(prompt, 'reportResult', 'reportStatus', button);
-    }
-
-    function generateEvent(button) {
-      const name = value('eventName');
-      const type = value('eventType');
-      const duration = value('eventDuration');
-      const prompt = `Viết chương trình ${type} tên '${name}', thời lượng ${duration}. Tiếng Việt, format theo giờ, chi tiết từng phần.`;
-      callAI(prompt, 'eventResult', 'eventStatus', button);
-    }
-
-    function generateThesis(button) {
-      const topic = value('thesisTopic');
-      const level = value('thesisLevel');
-      const part = value('thesisPart');
-      const prompt = `Viết ${part} cho luận văn ${level} về chủ đề: ${topic}. Tiếng Việt học thuật, đúng chuẩn trích dẫn, cấu trúc rõ ràng.`;
-      callAI(prompt, 'thesisResult', 'thesisStatus', button);
-    }
-
-    async function copyResult(resultId, button) {
-      const text = document.getElementById(resultId).value;
-      if (!text.trim()) return;
-      await navigator.clipboard.writeText(text);
-      const old = button.textContent;
-      button.textContent = '✅ Đã copy';
-      setTimeout(() => { button.textContent = old; }, 1300);
-    }
-  </script>
+<script>
+  const $=id=>document.getElementById(id); const v=id=>$(id).value.trim();
+  function out(id,statusId,text){$(id).value=text.trim();$(statusId).textContent='Đã tạo prompt/template. Hãy copy sang ChatGPT hoặc AI bạn dùng.';$(statusId).className='status ok'}
+  function need(fields,statusId){for(const [id,name] of fields){if(!v(id)){ $(statusId).textContent='Vui lòng nhập: '+name; $(statusId).className='status error'; return false }} return true}
+  const prefix='Bạn là Ông Đồ.AI — trợ lý viết tiếng Việt. Hãy trả lời bằng tiếng Việt tự nhiên, rõ ràng, có thể dùng ngay.';
+  function makeCaption(){if(!need([['captionTopic','sản phẩm/chủ đề']], 'captionStatus'))return; out('captionResult','captionStatus',`${prefix}\n\nNhiệm vụ: Viết 3 phương án caption cho ${v('captionChannel')} về: "${v('captionTopic')}".\nKhách hàng mục tiêu: ${v('captionAudience')||'chưa rõ, hãy giả định hợp lý'}.\nGiọng văn: ${v('captionTone')}.\nYêu cầu mỗi phương án gồm:\n1) Hook 1 câu đầu thu hút\n2) Nội dung 3-5 câu nêu lợi ích cụ thể\n3) CTA mềm mại\n4) 5 hashtag tiếng Việt phù hợp\nTránh nói quá, tránh từ ngữ vi phạm chính sách quảng cáo.`)}
+  function makeProduct(){if(!need([['productName','tên sản phẩm'],['productInfo','đặc điểm chính']], 'productStatus'))return; out('productResult','productStatus',`${prefix}\n\nNhiệm vụ: Viết mô tả sản phẩm shop online cho ${v('productPlatform')}.\nTên sản phẩm: ${v('productName')}\nĐặc điểm: ${v('productInfo')}\nPhong cách: ${v('productStyle')}.\nĐầu ra gồm:\n- Tiêu đề sản phẩm tối ưu tìm kiếm\n- Mô tả ngắn 2-3 câu\n- 5 lợi ích chính dạng bullet\n- Thông số/điểm nổi bật\n- Hướng dẫn sử dụng/bảo quản nếu phù hợp\n- Cam kết và CTA đặt hàng\nViết trung thực, dễ hiểu, không phóng đại.`)}
+  function makeBiz(){if(!need([['bizSituation','tình huống']], 'bizStatus'))return; out('bizResult','bizStatus',`${prefix}\n\nNhiệm vụ: Soạn ${v('bizType')} kinh doanh bằng tiếng Việt.\nTình huống: ${v('bizSituation')}\nNgười nhận: ${v('bizRecipient')||'khách hàng/đối tác'}.\nTone: ${v('bizTone')}.\nYêu cầu:\n- Mở đầu lịch sự\n- Nội dung chính rõ trong 3-6 câu\n- Có bước tiếp theo cụ thể\n- Kết thúc chuyên nghiệp\n- Nếu là email, thêm tiêu đề email; nếu là tin nhắn, viết ngắn gọn phù hợp Zalo/SMS.`)}
+  function makeSummary(){if(!need([['summaryText','văn bản cần tóm tắt']], 'summaryStatus'))return; out('summaryResult','summaryStatus',`${prefix}\n\nNhiệm vụ: Tóm tắt văn bản sau theo dạng ${v('summaryFormat')}, độ dài ${v('summaryLength')}.\nYêu cầu đầu ra gồm:\n1) Ý chính\n2) Số liệu/tên riêng/ngày tháng quan trọng nếu có\n3) Việc cần làm tiếp theo\n4) Rủi ro hoặc điểm cần chú ý\n\nVăn bản cần tóm tắt:\n"""\n${v('summaryText')}\n"""`)}
+  function makeJob(){if(!need([['jobTitle','vị trí'],['jobInfo','thông tin công việc']], 'jobStatus'))return; out('jobResult','jobStatus',`${prefix}\n\nNhiệm vụ: Viết bài đăng tuyển dụng cho kênh ${v('jobChannel')}.\nVị trí: ${v('jobTitle')}\nThông tin: ${v('jobInfo')}\nGiọng văn: ${v('jobTone')}.\nĐầu ra gồm:\n- Tiêu đề tuyển dụng thu hút\n- Mô tả công việc\n- Yêu cầu ứng viên\n- Quyền lợi\n- Thời gian/địa điểm nếu có\n- Cách ứng tuyển và CTA\nViết rõ ràng, không phân biệt đối xử, phù hợp thị trường Việt Nam.`)}
+  async function copyResult(id,btn){const text=$(id).value;if(!text.trim())return; await navigator.clipboard.writeText(text); const old=btn.textContent; btn.textContent='✅ Đã copy'; setTimeout(()=>btn.textContent=old,1200)}
+</script>
 </body>
 </html>
