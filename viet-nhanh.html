@@ -115,7 +115,7 @@
         <div class="actions"><button class="generate" onclick="makeJob()">Tạo prompt</button><button class="secondary" onclick="copyResult('jobResult',this)">Copy</button><button class="secondary" onclick="openChatGPT('jobResult',this)" disabled>Mở ChatGPT với prompt này</button></div><div id="jobStatus" class="status"></div><textarea id="jobResult" class="result" readonly></textarea>
       </article>
     </section>
-    <footer>© Ông Đồ.AI — prompt/template tiếng Việt zero-cost. URL giữ nguyên: viet-nhanh.html</footer>
+    <footer><a data-track="cta_ongdo_home" href="./?utm_source=smallbizops&utm_medium=ongdo_page&utm_campaign=day2_growth&utm_content=back_home">SmallBizOps</a> · <a data-track="cta_ongdo_trend" href="trend.html?utm_source=smallbizops&utm_medium=ongdo_page&utm_campaign=day2_growth&utm_content=trend_from_ongdo">Trend hôm nay</a><br>© Ông Đồ.AI — prompt/template tiếng Việt zero-cost. URL giữ nguyên: viet-nhanh.html</footer>
   </main>
 <script>
   const $=id=>document.getElementById(id); const v=id=>$(id).value.trim();
@@ -157,5 +157,6 @@
     const old=btn.textContent; btn.textContent='Đang mở…'; setTimeout(()=>btn.textContent=old,1200);
   }
 </script>
+<script src="tracking.js"></script>
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmallBizOps — Practical tools for small business operators</title>
+  <title>SmallBizOps — Công cụ vận hành cho chủ shop nhỏ</title>
   <meta name="description" content="SmallBizOps is a lightweight hub of calculators, checklists, and operating insights for small business owners. All math runs in your browser." />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="SmallBizOps — Practical tools for small business operators" />
+  <meta property="og:title" content="SmallBizOps — Công cụ vận hành cho chủ shop nhỏ" />
   <meta property="og:description" content="Simple calculators and operating insights for lean teams. No data leaves your browser." />
   <meta property="og:url" content="https://trminhcuongvn-art.github.io/smallbizops/" />
   <meta property="og:image" content="https://trminhcuongvn-art.github.io/smallbizops/assets/og-cover.png" />
@@ -28,17 +28,18 @@
       <div class="nav-links">
         <a href="#calculator">Calculator</a>
         <a href="#insights">Insights</a>
-        <a href="trend.html">Trends</a>
+        <a data-track="nav_trend" href="trend.html?utm_source=smallbizops&utm_medium=nav&utm_campaign=day2_growth&utm_content=trend">Trends</a>
+        <a data-track="nav_ongdo" href="viet-nhanh.html?utm_source=smallbizops&utm_medium=nav&utm_campaign=day2_growth&utm_content=ongdo_ai">Ông Đồ.AI</a>
         <a href="mailto:trminhcuongvn@gmail.com">Contact</a>
       </div>
     </nav>
 
     <section class="hero" id="top">
       <div class="hero-main reveal">
-        <span class="eyebrow">Operations tools for lean teams</span>
-        <h1>Make small business decisions with simple, usable numbers.</h1>
-        <p class="hero-copy">A lightweight hub for calculators, checklists, and operating insights that help owners plan sales, inventory, and daily work — without spreadsheets or sign-ups.</p>
-        <a class="button" href="#calculator">Try the sales target calculator</a>
+        <span class="eyebrow">Công cụ vận hành cho đội nhỏ</span>
+        <h1>Ra quyết định bán hàng bằng số liệu đơn giản, dùng ngay.</h1>
+        <p class="hero-copy">Bộ công cụ nhẹ cho chủ shop: tính mục tiêu doanh số, bắt trend nội dung và viết prompt tiếng Việt với Ông Đồ.AI — không đăng ký, không gửi dữ liệu lên máy chủ.</p>
+        <div class="hero-actions"><a class="button" data-track="cta_home_calculator" href="#calculator?utm_source=smallbizops&utm_medium=homepage&utm_campaign=day2_growth&utm_content=sales_calculator">Thử máy tính doanh số</a><a class="button secondary" data-track="cta_home_ongdo" href="viet-nhanh.html?utm_source=smallbizops&utm_medium=homepage&utm_campaign=day2_growth&utm_content=ongdo_ai">Mở Ông Đồ.AI</a><a class="button ghost" data-track="cta_home_trend" href="trend.html?utm_source=smallbizops&utm_medium=homepage&utm_campaign=day2_growth&utm_content=trend_brief">Xem Trend hôm nay</a></div>
       </div>
       <aside class="hero-aside reveal" aria-label="At a glance">
         <dl>
@@ -124,6 +125,7 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="tracking.js"></script>
   <script>
     (function () {
       if (!('IntersectionObserver' in window)) {
