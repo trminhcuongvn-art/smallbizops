@@ -46,7 +46,7 @@
 <div class="wrap">
   <div class="topbar">
     <span class="brand">SmallBizOps</span>
-    <a class="back" href="../?utm_source=smallbizops&utm_medium=tool_page&utm_campaign=day2_growth&utm_content=back_home">← Home</a>
+    <a class="back" data-track="tool_back_home" href="../?utm_source=smallbizops&utm_medium=tool_page&utm_campaign=day2_growth&utm_content=back_home">← Home</a>
   </div>
 
   <h1>Sales Caption Generator</h1>
@@ -83,15 +83,15 @@
     </div>
 
     <div class="actions">
-      <button class="btn-primary" onclick="generate()">Generate prompt</button>
-      <button class="btn-secondary" id="copyBtn" onclick="copyResult()" disabled>Copy</button>
-      <button class="btn-secondary" id="chatBtn" onclick="openChatGPT()" disabled>Open in ChatGPT</button>
+      <button class="btn-primary" data-track="generate_prompt" onclick="generate()">Generate prompt</button>
+      <button class="btn-secondary" id="copyBtn" data-track="copy_prompt" onclick="copyResult()" disabled>Copy</button>
+      <button class="btn-secondary" id="chatBtn" data-track="open_chatgpt" onclick="openChatGPT()" disabled>Open in ChatGPT</button>
     </div>
     <div class="status" id="status"></div>
     <textarea class="result" id="result" readonly></textarea>
   </div>
 
-  <footer>SmallBizOps — Free prompt tools for small business operators. <a href="../?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=day2_growth">More tools →</a></footer>
+  <footer>SmallBizOps — Free prompt tools for small business operators. <a data-track="tool_more_tools" href="../?utm_source=smallbizops&utm_medium=tool_en&utm_campaign=day2_growth&utm_content=more_tools">More tools →</a></footer>
 </div>
 
 <script>
