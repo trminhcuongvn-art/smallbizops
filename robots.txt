@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://trminhcuongvn-art.github.io/smallbizops/sitemap.xml
